@@ -9,6 +9,7 @@ const Tenants = () => {
     const [editFormData, setEditFormData] = useState({
         name: "",
         cpf: "",
+        value: 0,
         phone: "",
         overdue: false,
         overdueTime: 0,
@@ -265,6 +266,9 @@ const Tenants = () => {
                             <div>
                                 <strong>Quantidade de Propriedades:</strong> {item.properties?.length}
                             </div>
+                            <div>
+                                <strong>Valor:</strong> R$ {item.value.toLocaleString("pt-BR")}
+                            </div>
                         </li>
                     ))}
                 </ul>
@@ -272,69 +276,101 @@ const Tenants = () => {
 
             {selectedTenant && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-                        <h3 className="text-xl font-bold mb-4">Editar Inquilino</h3>
-                        <form onSubmit={handleEditSubmit} className="space-y-4">
-                            <div>
-                                <label className="block font-medium">Nome:</label>
-                                <input
-                                    type="text"
-                                    value={editFormData.name}
-                                    onChange={(e) =>
-                                        setEditFormData({ ...editFormData, name: e.target.value })
-                                    }
-                                    className="w-full p-2 border rounded-lg"
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label className="block font-medium">CPF:</label>
-                                <input
-                                    type="text"
-                                    value={editFormData.cpf}
-                                    onChange={(e) =>
-                                        setEditFormData({ ...editFormData, cpf: e.target.value })
-                                    }
-                                    className="w-full p-2 border rounded-lg"
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label className="block font-medium">Telefone:</label>
-                                <input
-                                    type="text"
-                                    value={editFormData.phone}
-                                    onChange={(e) =>
-                                        setEditFormData({ ...editFormData, phone: e.target.value })
-                                    }
-                                    className="w-full p-2 border rounded-lg"
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label className="block font-medium">Inadimplente:</label>
+                    <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-2xl mx-4">
+                        <div className="flex justify-between">
+                            <h3 className="text-2xl font-bold mb-4">Editar Inquilino</h3>
+                            <div className="flex items-center">
+                                <label className="block font-medium mr-2">Inadimplente </label>
                                 <input
                                     type="checkbox"
                                     checked={editFormData.overdue}
                                     onChange={(e) =>
                                         setEditFormData({ ...editFormData, overdue: e.target.checked })
                                     }
+                                    className="h-5 w-5"
                                 />
                             </div>
-                            <div>
-                                <label className="block font-medium">Tempo de Inadimplência:</label>
-                                <input
-                                    type="number"
-                                    value={editFormData.overdueTime}
-                                    onChange={(e) =>
-                                        setEditFormData({
-                                            ...editFormData,
-                                            overdueTime: parseInt(e.target.value) || 0,
-                                        })
-                                    }
-                                    className="w-full p-2 border rounded-lg"
-                                />
+                        </div>
+                        <form onSubmit={handleEditSubmit} className="space-y-4">
+                            {/* Primeira linha */}
+                            <div className="flex flex-wrap gap-4">
+                                <div className="flex-1">
+                                    <label className="block font-medium">Nome:</label>
+                                    <input
+                                        type="text"
+                                        value={editFormData.name}
+                                        onChange={(e) =>
+                                            setEditFormData({ ...editFormData, name: e.target.value })
+                                        }
+                                        className="w-full p-2 border rounded-lg"
+                                        required
+                                    />
+                                </div>
+
                             </div>
+
+                            {/* Segunda linha */}
+                            <div className="flex flex-wrap gap-4">
+                                <div className="flex-1">
+                                    <label className="block font-medium">CPF:</label>
+                                    <input
+                                        type="text"
+                                        value={editFormData.cpf}
+                                        onChange={(e) =>
+                                            setEditFormData({ ...editFormData, cpf: e.target.value })
+                                        }
+                                        className="w-full p-2 border rounded-lg"
+                                        required
+                                    />
+                                </div>
+                                <div className="flex-1">
+                                    <label className="block font-medium">Telefone:</label>
+                                    <input
+                                        type="text"
+                                        value={editFormData.phone}
+                                        onChange={(e) =>
+                                            setEditFormData({ ...editFormData, phone: e.target.value })
+                                        }
+                                        className="w-full p-2 border rounded-lg"
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Terceira linha */}
+                            <div className="flex flex-wrap gap-4">
+                                <div className="w-/5">
+                                    <label className="block font-medium">Tempo de Inadimplência:</label>
+                                    <input
+                                        type="number"
+                                        value={editFormData.overdueTime}
+                                        onChange={(e) =>
+                                            setEditFormData({
+                                                ...editFormData,
+                                                overdueTime: parseInt(e.target.value) || 0,
+                                            })
+                                        }
+                                        className="w-full p-2 border rounded-lg"
+                                    />
+                                </div>
+                                <div className="flex-1">
+                                    <label className="block font-medium">Valor:</label>
+                                    <input
+                                        type="number"
+                                        value={editFormData.value || ""}
+                                        onChange={(e) =>
+                                            setEditFormData({
+                                                ...editFormData,
+                                                value: parseFloat(e.target.value) || 0,
+                                            })
+                                        }
+                                        className="w-full p-2 border rounded-lg"
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Botões */}
                             <div className="flex justify-between space-x-2">
                                 <button
                                     type="button"
@@ -361,6 +397,7 @@ const Tenants = () => {
                     </div>
                 </div>
             )}
+
         </div>
     );
 };

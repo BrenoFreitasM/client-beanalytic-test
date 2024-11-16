@@ -49,7 +49,7 @@ const Home = () => {
                 activeTab === "invoices" ? "bg-blue-600" : "hover:bg-gray-700"
               }`}
             >
-              Financeiro
+              Dashboard
             </button>
           </li>
         </ul>
