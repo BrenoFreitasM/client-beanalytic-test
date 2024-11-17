@@ -3,12 +3,15 @@
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 
+import { useAuth } from "@/context/authContext";
+import { useRouter } from "next/navigation";
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-
+  const { login, user, userId } = useAuth(); // Desestruturando o login e userId
+  const router = useRouter();
 
   // -----Função de login -------
   const handleLogin = async (e) => {
@@ -25,6 +28,9 @@ const Login = () => {
       const data = await response.json();
 
       if (response.ok) {
+        // Chama o login do contexto, passando os dados do usuário
+        login({ id: data.user._id, name: data.user.name, email: data.user.email })
+
         // Alerta de sucesso com SweetAlert2
         Swal.fire({
           icon: "success",
@@ -33,6 +39,8 @@ const Login = () => {
           showConfirmButton: false,
           timer: 2000
         });
+        
+        router.push("/home");
         // Redirecionamento ou ações pós-login
       } else {
         // Alerta de erro 
