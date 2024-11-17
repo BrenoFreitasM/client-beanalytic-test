@@ -275,15 +275,17 @@ const Properties = () => {
                     <div>
                         <label className="block font-medium">Inquilino</label>
                         <select
-                            value={createFormData.tenant}
+                            value={createFormData.tenant?._id || ''} // Certifique-se de acessar o _id do tenant
                             onChange={(e) => {
                                 const selectedTenant = tenants.find((t) => t._id === e.target.value);
-                                setCreateFormData({ ...createFormData, tenant: selectedTenant });
+                                setCreateFormData({ ...createFormData, tenant: selectedTenant }); // Atualize corretamente o estado
                             }}
                             className="w-full p-2 border rounded-lg"
                             required
                         >
-                            <option value="" disabled>Selecione o inquilino</option>
+                            <option value="" disabled>
+                                Selecione o inquilino
+                            </option>
                             {tenants.map((tenant) => (
                                 <option key={tenant._id} value={tenant._id}>
                                     {tenant.name}
@@ -291,6 +293,7 @@ const Properties = () => {
                             ))}
                         </select>
                     </div>
+
 
                     <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
                         Criar Propriedade
@@ -375,10 +378,10 @@ const Properties = () => {
                                     <div>
                                         <label className="block font-medium">Inquilino:</label>
                                         <select
-                                            value={editFormData.tenant}
+                                            value={editFormData.tenant?._id || ''} // Certifique-se de acessar o _id corretamente
                                             onChange={(e) => {
                                                 const selectedTenant = tenants.find((t) => t._id === e.target.value);
-                                                setCreateFormData({ ...editFormData, tenant: selectedTenant });
+                                                setEditFormData({ ...editFormData, tenant: selectedTenant }); // Corrija para atualizar o editFormData
                                             }}
                                             className="w-full p-2 border rounded-lg"
                                             required
@@ -393,6 +396,7 @@ const Properties = () => {
                                             ))}
                                         </select>
                                     </div>
+
                                     <div className="flex justify-between space-x-2">
                                         <button
                                             type="button"

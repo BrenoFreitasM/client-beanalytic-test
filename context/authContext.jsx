@@ -1,7 +1,9 @@
 import { createContext, useState, useContext } from "react";
 
+// Criando o contexto
 const AuthContext = createContext();
 
+// Criando o provedor do contexto
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
@@ -15,4 +17,9 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+
+// Custom hook para consumir o contexto
+export const useAuth = () => {
+  return useContext(AuthContext);
+  
+}

@@ -15,7 +15,7 @@ const Tenants = () => {
         phone: "",
         overdue: false,
         overdueTime: 0,
-        properties: [],
+        properties: 0,
     });
     const [showForm, setShowForm] = useState(false); // Controla o formulário de criação
     const [createFormData, setCreateFormData] = useState({
@@ -25,7 +25,7 @@ const Tenants = () => {
         phone: "",
         overdue: false,
         overdueTime: 0,
-        properties: [],
+        properties: 0,
     });
 
     useEffect(() => {
@@ -165,7 +165,7 @@ const Tenants = () => {
                     phone: "",
                     overdue: false,
                     overdueTime: 0,
-                    properties: [],
+                    properties: 0,
                 });
                 setShowForm(false);
                 Swal.fire({
@@ -294,7 +294,7 @@ const Tenants = () => {
                                 <strong>Tempo de Inadimplência:</strong> {item.overdueTime} dias
                             </div>
                             <div>
-                                <strong>Quantidade de Propriedades:</strong> {item.properties?.length}
+                                <strong>Quantidade de Propriedades:</strong> {item.properties}
                             </div>
                             <div>
                                 <strong>Valor:</strong> R$ {item.value.toLocaleString("pt-BR")}
