@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useAuth } from "@/context/authContext";
 
 import Tenants from "../views/tenants";
 import Properties from "../views/properties";
@@ -8,7 +9,7 @@ import Invoices from "../views/invoices";
 
 const Home = () => {
   const [activeTab, setActiveTab] = useState("list"); // "list", "grid", "summary"
-
+  
   return (
     <div
       className="flex min-h-screen bg-gray-100 text-gray-600"

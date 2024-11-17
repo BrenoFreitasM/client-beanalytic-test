@@ -6,6 +6,8 @@ const Tenants = () => {
     const [properties, setProperties] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedTenant, setSelectedTenant] = useState(null);
+    const [ filterName, setFilterName ] = useState(""); // Filtro por nome
+    const [ filterOverdue, setFilterOvedue ] = useState(""); // Filtro pelo tipo de inadimpência
     const [editFormData, setEditFormData] = useState({
         name: "",
         cpf: "",
@@ -56,6 +58,13 @@ const Tenants = () => {
         setSelectedTenant(tenant);
         setEditFormData({ ...tenant });
     };
+
+    const filteredProperties = properties.filter((tenant) => {
+        const matchesNames = tenant.name.toLowerCase().includes(filterName.toLocaleLowerCase());
+        const matchesOverdue =
+            filterOverdue === "" || tenant.overdue === (filterOverdue === "true");
+        return matchesNames && matchesOverdue;
+    });
 
     const handleEditSubmit = async (e) => {
         e.preventDefault();
@@ -192,6 +201,26 @@ const Tenants = () => {
                 </button>
             </div>
 
+            {/* Filtro por Nome  */}
+            <input 
+                type="text"
+                placeholder="Filtra por nome"
+                value={filterName}
+                onChange={(e) => setFilterName(e.target.value)}
+                className="w-4/5 p-2 mb-3 border rounded-lg"
+            />
+
+            {/* Filtro por tipo de Inadimplência */}
+            <select
+            value={filterOverdue}
+            onChange={(e) => setFilterOvedue(e.target.value)}
+            className="w-1/5 p-2 mb-3 rounded-lg"
+            >
+                <option value="">Todos</option>
+                <option value="true">Inadimplentes</option>
+                <option value="false">Não inadimplentes</option>
+            </select>
+
             {/* Formulário de criação */}
             {showForm && (
                 <form
@@ -241,7 +270,7 @@ const Tenants = () => {
                 <div className="text-center text-xl text-gray-600">Carregando...</div>
             ) : (
                 <ul className="space-y-3">
-                    {properties.map((item, index) => (
+                    {filteredProperties.map((item, index) => (
                         <li
                             key={index}
                             className="p-4 bg-gray-200 rounded-lg shadow-md hover:bg-gray-300 transition space-x-2 cursor-pointer"
