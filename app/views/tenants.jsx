@@ -21,6 +21,7 @@ const Tenants = () => {
     const [createFormData, setCreateFormData] = useState({
         name: "",
         cpf: "",
+        value: 0,
         phone: "",
         overdue: false,
         overdueTime: 0,
@@ -110,7 +111,7 @@ const Tenants = () => {
 
     const handleDeleteTenant = async () => {
         try {
-            const response = await fetch(`http://localhost:3001/api/tenants/${selectedTenant.cpf}`, {
+            const response = await fetch(`http://localhost:3001/api/tenants/${selectedTenant._id}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -119,7 +120,7 @@ const Tenants = () => {
             });
 
             if (response.ok) {
-                setProperties((prev) => prev.filter((tenant) => tenant.cpf !== selectedTenant.cpf));
+                setProperties((prev) => prev.filter((tenant) => tenant._id !== selectedTenant._id));
                 Swal.fire({
                     icon: "success",
                     title: "Inquilino deletado com sucesso!",
